@@ -1,11 +1,11 @@
 import express, { Express } from "express";
+
 import serverConfig from "./config/serverConfig";
+import apiRouter from "./routes";
 
 const app: Express = express();
 
-app.get("/", (_req, res) => {
-  res.send("server is live");
-});
+app.use("/api", apiRouter);
 
 app.listen(serverConfig.PORT, () => {
   console.log("Server started at 5502");
