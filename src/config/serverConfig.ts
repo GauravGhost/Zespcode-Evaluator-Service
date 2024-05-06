@@ -6,4 +6,5 @@ export default {
   PORT: process.env.PORT ?? 5502,
   REDIS_PORT: process.env.REDIS_PORT ?? 6379,
   REDIS_HOST: process.env.REDIS_HOST ?? "127.0.0.1",
+  MONGODB_LOGGER_URL: process.env.MONGODB_LOGGER_URL ?? "127.0.0.1",
 };
