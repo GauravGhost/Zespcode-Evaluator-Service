@@ -15,5 +15,4 @@ export default function SampleWorker(queueName: string) {
     },
     { connection: redisConnection },
   );
-  return "true";
 }

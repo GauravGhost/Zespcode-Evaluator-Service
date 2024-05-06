@@ -12,8 +12,20 @@ app.use("/api", apiRouter);
 app.listen(serverConfig.PORT, async () => {
   console.log("Server started at 5502");
   SampleWorker("SampleQueue");
-  await sampleQueueProducer("SampleJob", {
-    name: "gyanendra kumar",
-    company: "wise neosco",
-  });
+  await sampleQueueProducer(
+    "SampleJob",
+    {
+      name: "gyanendra kumar",
+      company: "wise neosco",
+    },
+    10,
+  );
+  await sampleQueueProducer(
+    "SampleJob",
+    {
+      name: "rajnish kumar",
+      company: "wise neosco",
+    },
+    20,
+  );
 });
