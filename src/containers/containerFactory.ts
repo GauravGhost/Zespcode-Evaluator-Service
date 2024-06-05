@@ -1,7 +1,7 @@
 import Dockerode from "dockerode";
 
 async function createContainer(imageName: string, cmdExecutable: string[]) {
-  const docker = new Dockerode({ socketPath: "/run/docker.sock" });
+  const docker = new Dockerode();
 
   const container = await docker.createContainer({
     Image: imageName,

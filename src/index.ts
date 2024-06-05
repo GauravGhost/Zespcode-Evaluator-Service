@@ -15,6 +15,10 @@ app.use("/api", apiRouter);
 
 app.listen(serverConfig.PORT, async () => {
   logger.info("Server Started at " + serverConfig.PORT);
-  const code = `print("hello")`;
-  await runPython(code);
+  const code = `print(input())
+print(input())
+  `;
+  const inputCase = `100
+  200`;
+  await runPython(code, inputCase);
 });
