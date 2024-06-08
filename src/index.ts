@@ -3,7 +3,7 @@ import express, { Express } from "express";
 import serverAdapter from "./config/bullBoardConfig";
 import logger from "./config/loggerConfig";
 import serverConfig from "./config/serverConfig";
-import runJava from "./containers/runJavaDocker";
+import runCpp from "./containers/runCPP";
 import apiRouter from "./routes";
 
 const app: Express = express();
@@ -15,17 +15,16 @@ app.use("/api", apiRouter);
 
 app.listen(serverConfig.PORT, async () => {
   logger.info("Server Started at " + serverConfig.PORT);
-  const code = `import java.util.*;
-  public class Main {
-    public static void main(String[] args){
-      Scanner scn = new Scanner(System.in);
-      int input = scn.nextInt();
-      for(int i=0;i< input; i++){
-        System.out.println(i + " ");
-      }
-    }
-  }
-  `;
-  const inputCase = `10`;
-  await runJava(code, inputCase);
+  // const code = `#include<iostream>
+  // using namespace std;
+  // int main(){
+  // int x;
+  // cin >> x;
+  // cout << "value of x: " << x;
+  // cout << endl;
+  // return 0;
+  // }
+  // `;
+  // const inputCase = `10`;
+  // await runCpp(code, inputCase);
 });
