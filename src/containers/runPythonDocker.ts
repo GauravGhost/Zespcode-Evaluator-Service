@@ -1,7 +1,3 @@
-// import Dockerode from "dockerode";
-
-// import { TestCases } from "../types/testCases";
-
 import { PYTHON_IMAGE } from "../utils/constants";
 import createContainer from "./containerFactory";
 import decodeDockerStream from "./dockerHelper";
@@ -23,6 +19,7 @@ async function runPython(code: string, inputTestCase: string) {
     stderr: true,
     follow: true,
   });
+
   // Attach events on the stream objects to start or stop reading.
   loggerStream.on("data", (chunk) => {
     rawLogBuffer.push(chunk);

@@ -5,6 +5,7 @@ export default async function pullImage(imageName: string) {
     const docker = new Dockerode();
 
     return new Promise((res, rej) => {
+      // eslint-disable-next-line no-undef
       docker.pull(imageName, (err: Error, stream: NodeJS.ReadableStream) => {
         if (err) throw err;
         docker.modem.followProgress(

@@ -1,7 +1,3 @@
-// import Dockerode from "dockerode";
-
-// import { TestCases } from "../types/testCases";
-
 import { JAVA_IMAGE } from "../utils/constants";
 import createContainer from "./containerFactory";
 import decodeDockerStream from "./dockerHelper";

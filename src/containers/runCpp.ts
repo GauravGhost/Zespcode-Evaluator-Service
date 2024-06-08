@@ -1,7 +1,3 @@
-// import Dockerode from "dockerode";
-
-// import { TestCases } from "../types/testCases";
-
 import { CPP_IMAGE } from "../utils/constants";
 import createContainer from "./containerFactory";
 import decodeDockerStream from "./dockerHelper";
@@ -31,7 +27,7 @@ async function runCpp(code: string, inputTestCase: string) {
     rawLogBuffer.push(chunk);
   });
 
-  await new Promise((res) => {
+  const reponse = await new Promise((res) => {
     loggerStream.on("end", () => {
       const completeBuffer = Buffer.concat(rawLogBuffer);
       const decodedStream = decodeDockerStream(completeBuffer);
@@ -42,8 +38,7 @@ async function runCpp(code: string, inputTestCase: string) {
 
   // remove the container when done with it
   await cppDockerContainer.remove();
-  // console.log(loggerStream);
-  return cppDockerContainer;
+  return reponse;
 }
 
 export default runCpp;
