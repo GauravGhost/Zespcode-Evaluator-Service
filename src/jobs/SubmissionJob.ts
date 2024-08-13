@@ -1,6 +1,6 @@
 import { Job } from "bullmq";
 
-import runCpp from "../containers/runCpp";
+import runCpp from "../containers/cppExecutor";
 import { IJob } from "../types/bullMq.JobDefinition";
 import { SubmissionPayload } from "../types/submissionPayload";
 
