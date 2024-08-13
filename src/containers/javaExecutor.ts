@@ -1,11 +1,15 @@
-import CodeExecutorStrategy, { ExecutionResponse } from "../types/CodeExecutorStrategy";
+import CodeExecutorStrategy, {
+  ExecutionResponse,
+} from "../types/CodeExecutorStrategy";
 import { JAVA_IMAGE } from "../utils/constants";
 import createContainer from "./containerFactory";
 import decodeDockerStream from "./dockerHelper";
 
-
 class JavaExecutor implements CodeExecutorStrategy {
-  async execute(code: string, inputTestCase: string): Promise<ExecutionResponse> {
+  async execute(
+    code: string,
+    inputTestCase: string,
+  ): Promise<ExecutionResponse> {
     const rawLogBuffer: Buffer[] = [];
     const runCommand = `echo '${code.replace(/'/g, `'\\"`)}' > Main.java && javac Main.java && echo '${inputTestCase.replace(/'/g, `'\\"`)}' | java Main`;
     const javaDockerContainer = await createContainer(JAVA_IMAGE, [
@@ -42,6 +46,7 @@ class JavaExecutor implements CodeExecutorStrategy {
   }
 
   async fetchDecodedStream(
+    // eslint-disable-next-line no-undef
     loggerStream: NodeJS.ReadableStream,
     rawLogBuffer: Buffer[],
   ): Promise<string> {

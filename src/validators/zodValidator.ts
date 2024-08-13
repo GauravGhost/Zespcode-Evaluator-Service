@@ -12,7 +12,7 @@ export const validate =
     } catch (error) {
       if (error as ZodError) {
         logger.error(
-          `Error Occured in validation ErrorType: ${(error as ZodError).name}, error: ${error}`,
+          `Error Occurred in validation ErrorType: ${(error as ZodError).name}, error: ${error}`,
         );
       }
       return res.status(400).json({

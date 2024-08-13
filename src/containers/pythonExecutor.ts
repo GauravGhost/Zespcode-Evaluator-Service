@@ -1,11 +1,15 @@
-import CodeExecutorStrategy, { ExecutionResponse } from "../types/CodeExecutorStrategy";
+import CodeExecutorStrategy, {
+  ExecutionResponse,
+} from "../types/CodeExecutorStrategy";
 import { PYTHON_IMAGE } from "../utils/constants";
 import createContainer from "./containerFactory";
 import decodeDockerStream from "./dockerHelper";
 
-
 class PythonExecutor implements CodeExecutorStrategy {
-  async execute(code: string, inputTestCase: string): Promise<ExecutionResponse> {
+  async execute(
+    code: string,
+    inputTestCase: string,
+  ): Promise<ExecutionResponse> {
     const rawLogBuffer: Buffer[] = [];
     const runCommand = `echo '${code.replace(/'/g, `'\\"`)}' > test.py && echo '${inputTestCase.replace(/'/g, `'\\"`)}' | python3 test.py`;
     const pythonDockerContainer = await createContainer(PYTHON_IMAGE, [
@@ -42,6 +46,7 @@ class PythonExecutor implements CodeExecutorStrategy {
   }
 
   async fetchDecodedStream(
+    // eslint-disable-next-line no-undef
     loggerStream: NodeJS.ReadableStream,
     rawLogBuffer: Buffer[],
   ): Promise<string> {
