@@ -1,6 +1,13 @@
 export default interface CodeExecutorStrategy {
   // eslint-disable-next-line no-unused-vars
-  execute(code: string, inputTestCase: string): Promise<ExecutionResponse>;
+  execute(
+    // eslint-disable-next-line no-unused-vars
+    code: string,
+    // eslint-disable-next-line no-unused-vars
+    inputTestCase: string,
+    // eslint-disable-next-line no-unused-vars
+    outputTestCase: string,
+  ): Promise<ExecutionResponse>;
   // eslint-disable-next-line semi
 }
 

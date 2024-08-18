@@ -10,7 +10,9 @@ class CppExecutor implements CodeExecutorStrategy {
   async execute(
     code: string,
     inputTestCase: string,
+    outputTestCase: string,
   ): Promise<ExecutionResponse> {
+    console.log(outputTestCase);
     const rawLogBuffer: Buffer[] = [];
     const runCommand = `echo '${code.replace(/'/g, `'\\"`)}' > main.cpp && g++ main.cpp -o main && echo '${inputTestCase.replace(/'/g, `'\\"`)}' | ./main`;
     await pullImage(CPP_IMAGE);

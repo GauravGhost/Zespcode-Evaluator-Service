@@ -8,3 +8,4 @@ export const SUBMISSION_JOB = "SubmissionJob";
 // This will represent the header size of docker stream.
 // Docker stream header will contain data about type of stream. i.e stdout, stdin
 export const HEADER_SIZE = 8;
+export const submission_queue = "SubmissionQueue";

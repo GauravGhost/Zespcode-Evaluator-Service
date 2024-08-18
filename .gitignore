@@ -3,3 +3,6 @@ dist/
 .env
 dump.rdb
 .idea
+.vscode
+log/
+logs/
