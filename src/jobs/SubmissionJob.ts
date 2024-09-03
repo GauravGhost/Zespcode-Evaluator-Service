@@ -1,5 +1,6 @@
 import { Job } from "bullmq";
 
+import evaluationQueueProducer from "../producers/evaluationQueueProducer";
 import { IJob } from "../types/bullMq.JobDefinition";
 import { ExecutionResponse } from "../types/CodeExecutorStrategy";
 import { SubmissionPayload } from "../types/submissionPayload";
@@ -18,11 +19,11 @@ export default class SubmissionJob implements IJob {
     console.log("Handler of the job called");
     if (job) {
       console.log("job getting executed");
-      const keys = Object.keys(this.payload)[0];
-      const codeLanguage = this.payload[keys].language;
-      const code = this.payload[keys].code;
-      const inputTestCase = this.payload[keys].inputCase;
-      const outputTestCase = this.payload[keys].outputCase;
+      const key = Object.keys(this.payload)[0];
+      const codeLanguage = this.payload[key].language;
+      const code = this.payload[key].code;
+      const inputTestCase = this.payload[key].inputCase;
+      const outputTestCase = this.payload[key].outputCase;
       const strategy = createExecutor(codeLanguage);
       console.log(code);
       if (strategy !== null) {
@@ -31,7 +32,11 @@ export default class SubmissionJob implements IJob {
           inputTestCase,
           outputTestCase,
         );
-        console.log("response", response);
+        evaluationQueueProducer({
+          response,
+          userId: this.payload[key].userId,
+          submissionId: this.payload[key].submissionId,
+        });
         if (response.status === "SUCCESS") {
           console.log("code executed successfully");
           console.log("if response", response);
