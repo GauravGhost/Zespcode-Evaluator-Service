@@ -55,7 +55,13 @@ class CppExecutor implements CodeExecutorStrategy {
     rawLogBuffer: Buffer[],
   ): Promise<string> {
     return new Promise((res, rej) => {
+      const timeout = setTimeout(() => {
+        rej("TLE");
+      }, 2000);
+
       loggerStream.on("end", () => {
+        // This callback executes when the stream ends.
+        clearTimeout(timeout);
         const completeBuffer = Buffer.concat(rawLogBuffer);
         const decodedStream = decodeDockerStream(completeBuffer);
         console.log(decodedStream.stdout);

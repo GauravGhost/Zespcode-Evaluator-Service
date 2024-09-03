@@ -12,8 +12,7 @@ class JavaExecutor implements CodeExecutorStrategy {
     inputTestCase: string,
     outputTestCase: string,
   ): Promise<ExecutionResponse> {
-    console.log("output test case ", outputTestCase);
-    console.log("Java Executor called");
+    console.log("java executor called");
     const rawLogBuffer: Buffer[] = [];
     const runCommand = `echo '${code.replace(/'/g, `'\\"`)}' > Main.java && javac Main.java && echo '${inputTestCase.replace(/'/g, `'\\"`)}' | java Main`;
     await pullImage(JAVA_IMAGE);
@@ -22,7 +21,6 @@ class JavaExecutor implements CodeExecutorStrategy {
       "-c",
       runCommand,
     ]);
-    console.log("Java Executor called");
     // starting or booting the corresponding docker container
     await javaDockerContainer.start();
     console.log("Java Executor called");
@@ -42,8 +40,16 @@ class JavaExecutor implements CodeExecutorStrategy {
         loggerStream,
         rawLogBuffer,
       );
-      return { output: codeResponse, status: "COMPLETED" };
+      if (codeResponse.trim() === outputTestCase.trim()) {
+        return { output: codeResponse, status: "SUCCESS" };
+      } else {
+        return { output: codeResponse, status: "W/A" };
+      }
     } catch (e) {
+      if (e === "TLE") {
+        console.log("time limit exceeded coming herer");
+        await javaDockerContainer.kill();
+      }
       return { output: e as string, status: "ERROR" };
     } finally {
       // remove the container when done with it
@@ -57,7 +63,13 @@ class JavaExecutor implements CodeExecutorStrategy {
     rawLogBuffer: Buffer[],
   ): Promise<string> {
     return new Promise((res, rej) => {
+      const timeout = setTimeout(() => {
+        rej("TLE");
+      }, 2000);
+
       loggerStream.on("end", () => {
+        // This callback executes when the stream ends.
+        clearTimeout(timeout);
         const completeBuffer = Buffer.concat(rawLogBuffer);
         const decodedStream = decodeDockerStream(completeBuffer);
         console.log(decodedStream.stdout);
