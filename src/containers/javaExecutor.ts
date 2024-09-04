@@ -43,12 +43,12 @@ class JavaExecutor implements CodeExecutorStrategy {
       if (codeResponse.trim() === outputTestCase.trim()) {
         return { output: codeResponse, status: "SUCCESS" };
       } else {
-        return { output: codeResponse, status: "W/A" };
+        return { output: codeResponse, status: "WA" };
       }
     } catch (e) {
       if (e === "TLE") {
-        console.log("time limit exceeded coming herer");
         await javaDockerContainer.kill();
+        return { output: e as string, status: "TLE" };
       }
       return { output: e as string, status: "ERROR" };
     } finally {

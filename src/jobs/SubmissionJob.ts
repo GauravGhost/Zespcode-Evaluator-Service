@@ -16,9 +16,7 @@ export default class SubmissionJob implements IJob {
   }
 
   handle = async (job?: Job) => {
-    console.log("Handler of the job called");
     if (job) {
-      console.log("job getting executed");
       const key = Object.keys(this.payload)[0];
       const codeLanguage = this.payload[key].language;
       const code = this.payload[key].code;
