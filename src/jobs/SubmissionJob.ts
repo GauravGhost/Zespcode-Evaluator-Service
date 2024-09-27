@@ -5,6 +5,7 @@ import { IJob } from "../types/bullMq.JobDefinition";
 import { ExecutionResponse } from "../types/CodeExecutorStrategy";
 import { SubmissionPayload } from "../types/submissionPayload";
 import createExecutor from "../utils/ExecutorFactory";
+import { testCaseCreator } from "../utils/testCaseCreator";
 
 export default class SubmissionJob implements IJob {
   name: string;
@@ -20,10 +21,18 @@ export default class SubmissionJob implements IJob {
       const key = Object.keys(this.payload)[0];
       const codeLanguage = this.payload[key].language;
       const code = this.payload[key].code;
-      const inputTestCase = this.payload[key].inputCase;
-      const outputTestCase = this.payload[key].outputCase;
+      const testCases = this.payload[key].testCases;
       const strategy = createExecutor(codeLanguage);
-      console.log(code);
+
+      const { inputTestCase, outputTestCase } = testCaseCreator(testCases);
+
+      console.log(
+        "test cases formatter ",
+        inputTestCase,
+        "---",
+        outputTestCase,
+      );
+
       if (strategy !== null) {
         const response: ExecutionResponse = await strategy.execute(
           code,

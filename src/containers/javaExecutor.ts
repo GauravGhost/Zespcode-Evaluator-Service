@@ -1,6 +1,7 @@
 import CodeExecutorStrategy, {
   ExecutionResponse,
 } from "../types/CodeExecutorStrategy";
+import { isBooleanSame } from "../utils/booleanCompare";
 import { JAVA_IMAGE } from "../utils/constants";
 import createContainer from "./containerFactory";
 import decodeDockerStream from "./dockerHelper";
@@ -12,7 +13,6 @@ class JavaExecutor implements CodeExecutorStrategy {
     inputTestCase: string,
     outputTestCase: string,
   ): Promise<ExecutionResponse> {
-    console.log("java executor called");
     const rawLogBuffer: Buffer[] = [];
     const runCommand = `echo '${code.replace(/'/g, `'\\"`)}' > Main.java && javac Main.java && echo '${inputTestCase.replace(/'/g, `'\\"`)}' | java Main`;
     await pullImage(JAVA_IMAGE);
@@ -23,8 +23,6 @@ class JavaExecutor implements CodeExecutorStrategy {
     ]);
     // starting or booting the corresponding docker container
     await javaDockerContainer.start();
-    console.log("Java Executor called");
-    console.log("Started the docker container");
     const loggerStream = await javaDockerContainer.logs({
       stdout: true,
       stderr: true,
@@ -40,7 +38,20 @@ class JavaExecutor implements CodeExecutorStrategy {
         loggerStream,
         rawLogBuffer,
       );
-      if (codeResponse.trim() === outputTestCase.trim()) {
+
+      console.log(
+        codeResponse.toString().trim(),
+        " --- ",
+        outputTestCase.toString().trim(),
+      );
+
+      const trimedCodeResponse = codeResponse.trim();
+      const trimmedOutputTestCase = outputTestCase.trim();
+
+      if (
+        trimedCodeResponse === trimmedOutputTestCase ||
+        isBooleanSame(trimedCodeResponse, trimmedOutputTestCase)
+      ) {
         return { output: codeResponse, status: "SUCCESS" };
       } else {
         return { output: codeResponse, status: "WA" };

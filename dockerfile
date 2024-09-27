@@ -6,10 +6,6 @@ WORKDIR /app
 
 RUN git clone https://github.com/GauravGhost/Zespcode-Evaluator-Service.git .
 
-COPY package*.json ./
-
 RUN npm install
-
-COPY . .
 
 CMD ["npm", "run", "dev"]
