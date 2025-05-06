@@ -41,7 +41,6 @@
     "bullmq": "^5.7.8",
     "dockerode": "^4.0.2",
     "dotenv": "^16.4.5",
-    "evaluator-service": "file:",
     "express": "^4.19.2",
     "install": "^0.13.0",
     "ioredis": "^5.4.1",
