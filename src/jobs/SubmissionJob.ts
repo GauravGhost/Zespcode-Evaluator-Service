@@ -26,13 +26,6 @@ export default class SubmissionJob implements IJob {
 
       const { inputTestCase, outputTestCase } = testCaseCreator(testCases);
 
-      console.log(
-        "test cases formatter ",
-        inputTestCase,
-        "---",
-        outputTestCase,
-      );
-
       if (strategy !== null) {
         const response: ExecutionResponse = await strategy.execute(
           code,
@@ -44,13 +37,6 @@ export default class SubmissionJob implements IJob {
           userId: this.payload[key].userId,
           submissionId: this.payload[key].submissionId,
         });
-        if (response.status === "SUCCESS") {
-          console.log("code executed successfully");
-          console.log("if response", response);
-        } else {
-          console.log("Something went wrong with code execution");
-          console.log(response);
-        }
       }
     }
   };
